@@ -4,23 +4,16 @@ import { formatDate } from "@/utils/formatDate";
 import { slugify } from "@/utils/slugify";
 
 export default function BlogCard({ post, priority = false }) {
-  // console.log("post",post)
-
-  // console.log("post.created_at",post.created_at)
-  const formattedDate = formatDate(post.created_at);
-
-  // console.log("formattedDate", formattedDate);
+  // console.log("post", post);
+  const formattedDate = formatDate(post.published_at);
 
   return (
-    <Link
-      href={`/blog/${post.id}-${slugify(post.title)}`}
-      className="group block"
-    >
+    <Link href={`/blog/${post.id}-${slugify(post.title)}`} className="group block">
       <article className="bg-white rounded-2xl overflow-hidden border border-stone-100 hover:border-amber-200 hover:shadow-lg transition-all duration-300">
         <div className="relative w-full h-52 overflow-hidden">
-          {post.photo_url ? (
+          {post.image_url ? (
             <Image
-              src={post.photo_url}
+              src={post.image_url}
               alt={post.title}
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -33,9 +26,9 @@ export default function BlogCard({ post, priority = false }) {
             </div>
           )}
 
-          {post.category && (
+          {post.news_site && (
             <span className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-amber-700 text-xs font-medium px-2.5 py-1 rounded-full">
-              {post.category}
+              {post.news_site}
             </span>
           )}
         </div>
@@ -46,14 +39,12 @@ export default function BlogCard({ post, priority = false }) {
             {post.title}
           </h2>
           <p className="text-sm text-stone-500 leading-relaxed line-clamp-3">
-            {post.description}
+            {post.summary}
           </p>
 
           <div className="mt-5 flex items-center gap-1.5 text-amber-600 text-sm font-medium">
             Read more
-            <span className="group-hover:translate-x-1 transition-transform inline-block">
-              →
-            </span>
+            <span className="group-hover:translate-x-1 transition-transform inline-block">→</span>
           </div>
         </div>
       </article>

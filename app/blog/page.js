@@ -1,4 +1,4 @@
-import { getPosts } from "@/api/api";
+import { getPosts } from "@/lib/api";
 import { POSTS_PER_PAGE } from "@/constants";
 import BlogCard from "@/components/BlogCard";
 import Pagination from "@/components/Pagination";
@@ -6,6 +6,7 @@ import Pagination from "@/components/Pagination";
 export default async function BlogPage({ searchParams }) {
   const currentPage = Number(searchParams?.page) || 1;
   const data = await getPosts(currentPage, POSTS_PER_PAGE);
+  // console.log("data", data);
 
   const posts = data.blogs || [];
   const totalPosts = data.total_blogs || 0;
