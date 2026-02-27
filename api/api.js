@@ -1,5 +1,5 @@
-import { apiWrapper } from "@/api/apiWrapper";
-import { POSTS_PER_PAGE } from "@/constants";
+import { apiWrapper } from "./apiWrapper.js";
+import { POSTS_PER_PAGE } from "@/constants/index.js";
 
 export async function getPosts(page = 1, limit = POSTS_PER_PAGE) {
   const offset = (page - 1) * limit;

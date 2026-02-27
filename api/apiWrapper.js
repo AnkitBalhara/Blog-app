@@ -1,14 +1,15 @@
 import { API_BASE_URL } from "./constants";
 
-// Base fetch function — all methods go through this
 async function request(endpoint, options = {}) {
   const url = `${API_BASE_URL}${endpoint}`;
 
   const defaultOptions = {
     headers: {
       "Content-Type": "application/json",
+      "User-Agent":
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
     },
-    cache: "no-store",
+    next: { revalidate: 0 },
   };
 
   const finalOptions = {
@@ -22,17 +23,17 @@ async function request(endpoint, options = {}) {
 
   const res = await fetch(url, finalOptions);
 
-  // Response interceptor — handle errors in one place
   if (!res.ok) {
     const errorData = await res.json().catch(() => null);
-    const errorMessage = errorData?.message || "Something went wrong";
+    const errorMessage =
+      errorData?.message ||
+      `API Error: ${res.status} ${res.statusText} - ${url}`;
     throw new Error(errorMessage);
   }
 
   return res.json();
 }
 
-// API wrapper — get method live here
 export const apiWrapper = {
   get: (endpoint, options = {}) => {
     return request(endpoint, {
@@ -41,5 +42,34 @@ export const apiWrapper = {
     });
   },
 
-  // Add other methods here like post, put, delete...
+  post: (endpoint, data = {}, options = {}) => {
+    return request(endpoint, {
+      method: "POST",
+      body: JSON.stringify(data),
+      ...options,
+    });
+  },
+
+  put: (endpoint, data = {}, options = {}) => {
+    return request(endpoint, {
+      method: "PUT",
+      body: JSON.stringify(data),
+      ...options,
+    });
+  },
+
+  patch: (endpoint, data = {}, options = {}) => {
+    return request(endpoint, {
+      method: "PATCH",
+      body: JSON.stringify(data),
+      ...options,
+    });
+  },
+
+  delete: (endpoint, options = {}) => {
+    return request(endpoint, {
+      method: "DELETE",
+      ...options,
+    });
+  },
 };
