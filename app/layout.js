@@ -2,7 +2,10 @@ import Header from "@/components/Header";
 import "./globals.css";
 
 export const metadata = {
-  title: "Company Blog",
+  title: {
+    template: " %s | Blog Website",
+    default: "Blog Website",
+  },
   description: "Latest articles and updates",
 };
 
